@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+/**
+ * Entry application component used to compose providers and render Routes.
+ * */
 
-function App() {
+import React from "react";
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import { PersistGate } from "redux-persist/integration/react";
+import { LastLocationProvider } from "react-router-last-location";
+import { Routes } from "./app/router/Routes";
+import { I18nProvider, LayoutSplashScreen, ThemeProvider } from "./_metronic";
+
+export default function App({ store, Layout, persistor, basename }) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    /* Provide Redux store */
+    <Provider store={store} loading={<LayoutSplashScreen />}>
+      {/* Asynchronously persist redux stores and show `SplashScreen` while it's loading. */}
+      <PersistGate persistor={persistor}>
+        {/* Add high level `Suspense` in case if was not handled inside the React tree. */}
+        <React.Suspense fallback={<LayoutSplashScreen />}>
+          {/* Override `basename` (e.g: `homepage` in `package.json`) */}
+          <BrowserRouter basename={basename}>
+            {/*This library only returns the location that has been active before the recent location change in the current window lifetime.*/}
+            <LastLocationProvider>
+              {/* Provide Metronic theme overrides. */}
+              <ThemeProvider>
+                {/* Provide `react-intl` context synchronized with Redux state.  */}
+                <I18nProvider>
+                  {/* Render routes with provided `Layout`. */}
+                  <Routes Layout={Layout} />
+                </I18nProvider>
+              </ThemeProvider>
+            </LastLocationProvider>
+          </BrowserRouter>
+        </React.Suspense>
+      </PersistGate>
+    </Provider>
   );
 }
-
-export default App;

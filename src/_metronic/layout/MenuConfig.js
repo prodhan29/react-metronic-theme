@@ -530,22 +530,6 @@ export default {
               {
                 title: "Box",
                 page: "google-material/layout/box"
-              },
-              {
-                title: "Container",
-                page: "google-material/layout/container"
-              },
-              {
-                title: "Grid",
-                page: "google-material/layout/grid"
-              },
-              {
-                title: "Grid list",
-                page: "google-material/layout/grid-list"
-              },
-              {
-                title: "Hidden",
-                page: "google-material/layout/hidden"
               }
             ]
           },

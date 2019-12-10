@@ -2,11 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import objectPath from "object-path";
 import Header from "./header/Header";
-import SubHeader from "./sub-header/SubHeader";
 import { withRouter } from "react-router-dom";
 import HeaderMobile from "./header/HeaderMobile";
 import AsideLeft from "./aside/AsideLeft";
-import Footer from "./footer/Footer";
 import HTMLClassService from "./HTMLClassService";
 import LayoutConfig from "./LayoutConfig";
 import MenuConfig from "./MenuConfig";
@@ -24,7 +22,6 @@ const styles = [
 function Layout({
   children,
   asideDisplay,
-  subheaderDisplay,
   selfLayout,
   fitTop,
   fluid,
@@ -73,10 +70,7 @@ function Layout({
               id="kt_content"
               className={`kt-content ${contentCssClasses} kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor`}
             >
-              {/* <!-- begin:: Content Head --> */}
-              {subheaderDisplay && (
-                <SubHeader htmlClassService={htmlClassService} />
-              )}
+             
               {/* <!-- end:: Content Head --> */}
 
               {/* <!-- begin:: Content Body --> */}
@@ -85,7 +79,7 @@ function Layout({
               {/*<!-- end:: Content Body -->*/}
             </div>
             {/* <!-- end:: Content --> */}
-            <Footer />
+         
           </div>
         </div>
         {/* <!-- end:: Body --> */}
@@ -103,7 +97,6 @@ const mapStateToProps = ({ builder: { layoutConfig } }) => ({
   layoutConfig,
   selfLayout: objectPath.get(layoutConfig, "self.layout"),
   asideDisplay: objectPath.get(layoutConfig, "aside.self.display"),
-  subheaderDisplay: objectPath.get(layoutConfig, "subheader.display"),
   desktopHeaderDisplay: objectPath.get(
     layoutConfig,
     "header.self.fixed.desktop"
